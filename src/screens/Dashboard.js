@@ -7,11 +7,10 @@ import RegularButton from "../components/buttons/RegularButton";
 import IconHeader from "../components/icons/IconHeader";
 import BigText from "../components/texts/BigText";
 import { styles } from "../styles/styles";
-import { Dimensions } from "react-native";
 const Dashboard = () => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
-
+  //always check the permission before using the camera
   if (!permission) {
     // Camera permissions are still loading
     return <View />;
@@ -23,17 +22,15 @@ const Dashboard = () => {
       <MainContainer>
         <View
           style={{
-            position: "absolute",
-            top: Dimensions.get("screen").width / 2,
-            left: Dimensions.get("screen").height / 2,
-            transform: [{ translateX: -Dimensions.get("screen").width }],
+            marginTop: "50%",
           }}
         >
           <ScrollView showsVerticalScrollIndicator={false}>
             <IconHeader name="license" style={{ marginBottom: 30 }} />
             <BigText
               style={{
-                marginBottom: 25,
+                marginBottom: 30,
+                textAlign: "center",
               }}
             >
               Start your journey with us by checking the cab
@@ -54,7 +51,7 @@ const Dashboard = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.cameraContainer}>
       <Camera style={styles.camera} type={type}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraType}>

@@ -79,6 +79,10 @@ export const styles = StyleSheet.create({
   },
 
   //Camera Screen
+  cameraContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
   camera: {
     flex: 1,
   },
