@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors } from "./../components/colors";
 const { white, black, lightGray } = colors;
 export const styles = StyleSheet.create({
-  //Slider
+  //!Slider
   container: {
     paddingLeft: 20,
     paddingRight: 20,
@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
     paddingTop: 30,
     lineHeight: 24,
   },
-  //RootStack
+  //!RootStack
   containerRootStack: {
     backgroundColor: "#fff",
     display: "flex",
@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
     width: 120,
   },
 
-  //Camera Screen
+  //!Camera Screen
   cameraContainer: {
     flex: 1,
     justifyContent: "center",

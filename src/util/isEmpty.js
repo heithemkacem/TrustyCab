@@ -1,3 +1,4 @@
+// Description: Checks if the value is empty or not
 const isEmpty = (value) =>
   value === null ||
   value === undefined ||

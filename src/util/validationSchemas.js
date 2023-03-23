@@ -1,11 +1,13 @@
 import * as Yup from "yup";
 
+//!Forget Password Schema
 export const ForgetPassSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email address")
     .required("Please enter your email address"),
 });
 
+//!Signup Schema
 export const SignupSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email address")
@@ -26,6 +28,7 @@ export const SignupSchema = Yup.object().shape({
   phone: Yup.number().required("Phone number required"),
 });
 
+//!Login Schema
 export const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email address")
@@ -33,6 +36,7 @@ export const LoginSchema = Yup.object().shape({
   password: Yup.string().required("Required"),
 });
 
+//!Reset Password Schema
 export const ResetSchema = Yup.object().shape({
   newPassword: Yup.string()
     .required("Enter a password")
