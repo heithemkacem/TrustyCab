@@ -61,7 +61,7 @@ const RootStack = () => {
               component={Dashboard}
               options={{
                 headerLeft: () => null,
-                headerTitle: "Main Screen",
+                headerTitle: "TrustyCab",
                 //logout button
                 headerRight: () => (
                   <Pressable

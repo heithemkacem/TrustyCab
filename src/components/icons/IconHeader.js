@@ -6,7 +6,11 @@ import { colors } from "../colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 const { white, accent } = colors;
 const IconBg = styled.View`
-  background-color: ${accent};
+  ${(props) => {
+    return props.bgColor
+      ? `background-color: ${props.bgColor}`
+      : `background-color: ${accent}`;
+  }}
   width: ${ScreenHeight * 0.15}px;
   height: ${ScreenHeight * 0.15}px;
   border-radius: ${ScreenHeight * 0.2};
@@ -15,9 +19,9 @@ const IconBg = styled.View`
   align-self: center;
 `;
 
-const IconHeader = ({ name, color, ...props }) => {
+const IconHeader = ({ name, color, bgColor, ...props }) => {
   return (
-    <IconBg style={{ ...props.style }}>
+    <IconBg style={{ ...props.style }} bgColor={bgColor}>
       <MaterialCommunityIcons
         name={name}
         size={ScreenHeight * 0.15}

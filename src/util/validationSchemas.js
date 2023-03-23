@@ -6,6 +6,9 @@ export const ForgetPassSchema = Yup.object().shape({
     .email("Please enter a valid email address")
     .required("Please enter your email address"),
 });
+export const taxiBannerSchema = Yup.object().shape({
+  taxiBanner: Yup.number().required("Please enter the taxi banner"),
+});
 
 //!Signup Schema
 export const SignupSchema = Yup.object().shape({
