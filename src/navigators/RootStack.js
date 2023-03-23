@@ -6,8 +6,11 @@ import Signup from "./../screens/Signup";
 import EmailVerification from "../screens/EmailVerification";
 import ForgotPassword from "../screens/ForgotPassword";
 import ResetPassword from "../screens/ResetPassword";
-import Dashboard from "../screens/Dashboard";
 import HomePage from "../screens/HomePage";
+
+import Dashboard from "../screens/Dashboard";
+import Camera from "../screens/Camera";
+
 //!import of expo and react native modules
 import { colors } from "../components/colors";
 import { NavigationContainer } from "@react-navigation/native";
@@ -26,8 +29,8 @@ const { white, black } = colors;
 const RootStack = () => {
   const auth = useSelector((state) => state.auth);
 
-  const { isConnected } = auth;
-
+  let { isConnected } = auth;
+  isConnected = true;
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -58,7 +61,7 @@ const RootStack = () => {
               component={Dashboard}
               options={{
                 headerLeft: () => null,
-                headerTitle: "Dashboard",
+                headerTitle: "Main Screen",
                 //logout button
                 headerRight: () => (
                   <Pressable
@@ -74,6 +77,19 @@ const RootStack = () => {
                     />
                   </Pressable>
                 ),
+              }}
+            />
+
+            <Stack.Screen
+              name="Camera"
+              //passing the user and the dahsboard component to the component prop inside a protected route
+              component={Camera}
+              options={{
+                //show only the back button and no title
+                headerTitle: "",
+                headerStyle: {
+                  backgroundColor: "#FFCC00",
+                },
               }}
             />
           </>

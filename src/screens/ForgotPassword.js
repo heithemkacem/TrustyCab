@@ -10,21 +10,12 @@ import BigText from "../components/texts/BigText";
 import PressableText from "../components/texts/PressableText";
 import { useDispatch } from "react-redux";
 import { ForgotPasswordAction } from "../_actions/logicHandlerActions/authActions";
-import * as Yup from "yup";
-
-const ForgetPassSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Please enter your email address"),
-});
+import { moveTo } from "../util/moveTo";
+import { ForgetPassSchema } from "../util/validationSchemas";
 const ForgotPassword = ({ navigation }) => {
   const { white } = colors;
 
   const dispatch = useDispatch();
-
-  const moveTo = (screen, payLoad) => {
-    navigation.navigate(screen, { ...payLoad });
-  };
 
   return (
     <MainContainer>
@@ -82,7 +73,7 @@ const ForgotPassword = ({ navigation }) => {
               )}
               <PressableText
                 style={{ paddingTop: 15 }}
-                onPress={() => moveTo("Signup")}
+                onPress={() => moveTo(navigation, "Signup")}
               >
                 Dont have an account? Sign Up
               </PressableText>

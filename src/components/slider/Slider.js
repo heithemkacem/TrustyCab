@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
-
+import { moveTo } from "../../util/moveTo";
 import { styles } from "../../styles/styles";
 
 const Slider = ({ navigation }) => {
@@ -14,9 +14,7 @@ const Slider = ({ navigation }) => {
   const onSkip = () => {
     setshowRealApp(true);
   };
-  const moveTo = (screen, payLoad) => {
-    navigation.navigate(screen, { ...payLoad });
-  };
+
   const buttonLabel = (label) => {
     return (
       <View
@@ -83,8 +81,8 @@ const Slider = ({ navigation }) => {
           },
         ]}
         renderItem={renderItem}
-        onSkip={() => moveTo("Login")}
-        onDone={() => moveTo("HomePage")}
+        onSkip={() => moveTo(navigation, "Login")}
+        onDone={() => moveTo(navigation, "HomePage")}
         showPrevButton={true}
         showSkipButton={true}
         renderNextButton={() => buttonLabel("Next")}

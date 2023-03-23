@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import { colors } from "../colors";
 import { useDispatch } from "react-redux";
 import { VerifyOTPAction } from "./../../_actions/logicHandlerActions/authActions";
-
+import { moveTo } from "../../util/moveTo";
 const { secondary, black, accent } = colors;
 
 //?This is the styled components of the otp verification
@@ -53,10 +53,6 @@ const CodeInput = ({
   navigation,
 }) => {
   const [focused, setFocused] = useState(false);
-
-  const moveTo = (screen, payLoad) => {
-    navigation.navigate(screen, { ...payLoad });
-  };
 
   const codeDigitsArray = new Array(maxLength).fill(0);
 

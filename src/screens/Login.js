@@ -9,23 +9,12 @@ import BigText from "../components/texts/BigText";
 import PressableText from "../components/texts/PressableText";
 import { useDispatch } from "react-redux";
 import { LoginAction } from "../_actions/logicHandlerActions/authActions";
-import * as Yup from "yup";
-
-const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Please enter your email address"),
-  password: Yup.string().required("Required"),
-});
-
+import { moveTo } from "../util/moveTo";
+import { LoginSchema } from "../util/validationSchemas";
 const Login = ({ navigation }) => {
   const { white } = colors;
 
   const dispatch = useDispatch();
-
-  const moveTo = (screen, payLoad) => {
-    navigation.navigate(screen, { ...payLoad });
-  };
 
   return (
     <MainContainer>
@@ -95,11 +84,13 @@ const Login = ({ navigation }) => {
 
               <PressableText
                 style={{ marginBottom: 15 }}
-                onPress={() => moveTo("Signup")}
+                onPress={() => moveTo(navigation, "Signup")}
               >
                 Dont have an account ? Signup
               </PressableText>
-              <PressableText onPress={() => moveTo("ForgotPassword")}>
+              <PressableText
+                onPress={() => moveTo(navigation, "ForgotPassword")}
+              >
                 Forgot password ?
               </PressableText>
             </>

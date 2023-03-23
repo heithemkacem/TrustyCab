@@ -14,25 +14,8 @@ import {
   ResendEmailAction,
 } from "./../_actions/logicHandlerActions/authActions";
 import BigText from "../components/texts/BigText";
-import * as Yup from "yup";
-
-//Reset Password Schema
-const ResetSchema = Yup.object().shape({
-  newPassword: Yup.string()
-    .required("Enter a password")
-    .min(8, "Your password must be at least 8 characters")
-    .max(24, "Your password must be at most 24 characters")
-    .matches(/(?=.*[0-9])/, "Password must contain a number")
-    .matches(/(?=.*[a-z])/, "Password must contain a lowercase letter")
-
-    .matches(/(?=.*[A-Z])/, "Password must contain an uppercase letter")
-
-    .matches(/(?=.*[!@#$%^&*])/, "Password must contain a special character"),
-  confirmNewPassword: Yup.string().oneOf(
-    [Yup.ref("newPassword"), null],
-    "Passwords must match"
-  ),
-});
+import { ResetSchema } from "../util/validationSchemas";
+import { moveTo } from "../util/moveTo";
 
 const ResetPassword = ({ navigation, route }) => {
   //The Form Wrapper for the opacity change
@@ -43,10 +26,6 @@ const ResetPassword = ({ navigation, route }) => {
   `;
 
   const { white } = colors;
-
-  const moveTo = (screen, payLoad) => {
-    navigation.navigate(screen, { ...payLoad });
-  };
 
   const dispatch = useDispatch();
 

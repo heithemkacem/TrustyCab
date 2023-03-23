@@ -8,7 +8,7 @@ const PressableText = (props) => {
   return (
     <Pressable {...props} onPress={props.onPress}>
       <SmallText style={{ color: black, fontWeight: 600 }}>
-        {props.children}
+        {props.children || props.title}
       </SmallText>
     </Pressable>
   );

@@ -10,7 +10,7 @@ const currentUrl = devUrl;
 
 //!Login Admin
 export const LoginAction =
-  (credentials, setSubmitting, moveTo, t) => async (dispatch) => {
+  (credentials, setSubmitting, moveTo, navigation) => async (dispatch) => {
     try {
       await axios
         .post(`${currentUrl}/admin/auth`, credentials)
@@ -46,11 +46,11 @@ export const LoginAction =
               text2: "Welcome",
             });
 
-            moveTo("Dashboard");
+            moveTo(navigation, "Dashboard");
             //! check if the user is verified
           } else if (response.data.status === "Verify") {
             setSubmitting(false);
-            moveTo("EmailVerification", {
+            moveTo(navigation, "EmailVerification", {
               email: credentials.email,
               id: response.data.id,
             });

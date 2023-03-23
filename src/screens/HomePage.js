@@ -3,12 +3,8 @@ import MainContainer from "../components/containers/MainContainer";
 import RegularButton from "../components/buttons/RegularButton";
 import Logo from "../components/imageComponent/Logo";
 import { View } from "react-native";
-
+import { moveTo } from "../util/moveTo";
 const HomePage = ({ navigation }) => {
-  const moveTo = (screen, payLoad) => {
-    navigation.navigate(screen, { ...payLoad });
-  };
-
   return (
     <MainContainer>
       <Logo
@@ -23,10 +19,10 @@ const HomePage = ({ navigation }) => {
           justifyContent: "space-between",
         }}
       >
-        <RegularButton onPress={() => moveTo("Login")}>
+        <RegularButton onPress={() => moveTo(navigation, "Login")}>
           Conenct to your account
         </RegularButton>
-        <RegularButton onPress={() => moveTo("Signup")}>
+        <RegularButton onPress={() => moveTo(navigation, "Signup")}>
           Create an account
         </RegularButton>
       </View>

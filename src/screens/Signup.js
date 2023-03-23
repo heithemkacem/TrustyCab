@@ -9,37 +9,13 @@ import PressableText from "../components/texts/PressableText";
 import { SignupAction } from "../_actions/logicHandlerActions/authActions";
 import { useDispatch } from "react-redux";
 import BigText from "../components/texts/BigText";
-import * as Yup from "yup";
-
-//The signup schema for validation with Yup
-const SignupSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Please enter your email address"),
-  password: Yup.string()
-    .required("Required")
-    .min(8, "Too Short!")
-    .max(24, "Too Long!")
-    .matches(/(?=.*[0-9])/, "Password must contain a number.")
-    .matches(/(?=.*[a-z])/, "Password must contain a lowercase letter.")
-    .matches(/(?=.*[A-Z])/, "Password must contain a uppercase letter.")
-    .matches(/(?=.*[!@#$%^&*])/, "Password must contain a special character."),
-  confirmPassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    "Passwords must match"
-  ),
-  fullName: Yup.string().required("FullName required"),
-  phone: Yup.number().required("Phone number required"),
-});
+import { moveTo } from "../util/moveTo";
+import { SignupSchema } from "../util/validationSchemas";
 
 const SignUp = ({ navigation }) => {
   const { white } = colors;
 
   const dispatch = useDispatch();
-
-  const moveTo = (screen, payLoad) => {
-    navigation.navigate(screen, { ...payLoad });
-  };
 
   return (
     <MainContainer>
@@ -148,7 +124,7 @@ const SignUp = ({ navigation }) => {
 
               <PressableText
                 style={{ paddingTop: 15 }}
-                onPress={() => moveTo("Login")}
+                onPress={() => moveTo(navigation, "Login")}
               >
                 Have an account? Login
               </PressableText>

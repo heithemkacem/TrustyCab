@@ -9,7 +9,7 @@ import ResendTimer from "../components/timers/ResendTimer";
 import { ResendEmailAction } from "../_actions/logicHandlerActions/authActions";
 import { useDispatch } from "react-redux";
 import BigText from "../components/texts/BigText";
-
+import { moveTo } from "../util/moveTo";
 const EmailVerification = ({ navigation, route }) => {
   const { white, accent } = colors;
   // code input states
@@ -22,9 +22,6 @@ const EmailVerification = ({ navigation, route }) => {
   const [resendStatus, setResendStatus] = useState("Resend");
   const [resendingEmail, setResendingEmail] = useState(false);
 
-  const moveTo = (screen, payLoad) => {
-    navigation.navigate(screen, { ...payLoad });
-  };
   const dispatch = useDispatch();
   const resendEmail = async (triggerTimer) => {
     dispatch(
