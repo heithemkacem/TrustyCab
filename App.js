@@ -12,10 +12,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwt_decode from "jwt-decode";
 import Toast from "react-native-toast-message";
-import Dashboard from "./src/screens/Dashboard";
+import TaxiScreen from "./src/screens/TaxiScreen";
 export default function App() {
-  //get jwt item from asynsStorage
-
   AsyncStorage.getItem("jwt").then((token) => {
     if (token) {
       const decode = jwt_decode(token);

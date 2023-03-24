@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MainContainer from "../components/containers/MainContainer";
-import { View, ScrollView, ActivityIndicator } from "react-native";
+import { View, ScrollView } from "react-native";
 import RegularButton from "../components/buttons/RegularButton";
 import IconHeader from "../components/icons/IconHeader";
 import BigText from "../components/texts/BigText";

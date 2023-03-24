@@ -11,7 +11,8 @@ const BigText = (props) => {
       style={{
         fontSize: 25,
         fontWeight: 600,
-        color: black,
+        textAlign: "center",
+        color: props.color ? props.color : black,
         ...props.style,
       }}
     >

@@ -99,4 +99,24 @@ export const styles = StyleSheet.create({
     alignSelf: "stretch",
     flex: 1,
   },
+  //!Stars Review
+  starsContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+  starsHeading: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: white,
+  },
+  stars: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  starUnselected: {
+    color: white,
+  },
+  starSelected: {
+    color: white,
+  },
 });

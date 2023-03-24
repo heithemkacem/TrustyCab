@@ -30,7 +30,6 @@ const RootStack = () => {
   const auth = useSelector((state) => state.auth);
 
   let { isConnected } = auth;
-  isConnected = true;
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -63,6 +62,7 @@ const RootStack = () => {
                 headerLeft: () => null,
                 headerTitle: "TrustyCab",
                 //logout button
+
                 headerRight: () => (
                   <Pressable
                     onPress={() => {
