@@ -17,7 +17,7 @@ import { UserSchema } from './schemas/user.schema';
         return {
           secret: config.get<string>('JWT_SECRET'),
           signOptions: {
-            expiresIn: config.get<string | number>('JWT_EXPIRES'),
+            expiresIn: '1d',
           },
         };
       },
