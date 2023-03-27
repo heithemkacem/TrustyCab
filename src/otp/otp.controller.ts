@@ -13,7 +13,7 @@ export class OtpController {
     return this.OTPService.verifyOTPModifyPassword(userID, otp);
   }
   @Post('resend')
-  resendOTP(@Body() { userID, email }): Promise<any> {
-    return this.OTPService.resendOTP(userID, email);
+  resendOTP(@Body() { userID }): Promise<any> {
+    return this.OTPService.resendOTP(userID);
   }
 }

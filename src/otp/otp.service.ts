@@ -25,9 +25,8 @@ export class OtpService {
       specialChars: true,
       digits: true,
     });
-
     //hash the unique string
-    const hashedOTP = await bcrypt.hash(otp, 20);
+    const hashedOTP = await bcrypt.hash(otp, 10);
     //set values in userVerification collection
     const OTPRecord = this.otpModel.create({
       userID: _id,
@@ -153,8 +152,8 @@ export class OtpService {
   }
 
   //!resend OTP Function
-  async resendOTP(userID: string, email: string): Promise<any> {
-    if (!userID || !email) {
+  async resendOTP(userID: string): Promise<any> {
+    if (!userID) {
       return {
         status: 'Failed',
         message: 'Empty details are not allowed',
@@ -162,8 +161,14 @@ export class OtpService {
     } else {
       // delete existing records and resend
       await this.otpModel.deleteMany({ userID: userID });
-      const _id = userID;
-      await this.sendOTPVerificationEmail({ _id, email });
+      const user = await this.userModel.findById(userID);
+      if (user.verified) {
+        return {
+          status: 'Failed',
+          message: 'Account has already been verified',
+        };
+      }
+      await this.sendOTPVerificationEmail(user);
       return {
         status: 'Success',
         message: 'OTP has been resent',

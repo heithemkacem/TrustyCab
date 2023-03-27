@@ -70,7 +70,7 @@ export class AuthService {
     } else {
       if (user.verified == false) {
         return {
-          status: 'Failed',
+          status: 'Verify',
           message: 'Please verify your email',
         };
       } else {
@@ -81,6 +81,7 @@ export class AuthService {
             message: 'Invalid email or password',
           };
         }
+
         const token = this.jwtService.sign({ id: user._id });
         return {
           status: 'Success',
