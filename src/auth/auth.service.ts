@@ -83,6 +83,7 @@ export class AuthService {
         }
 
         const token = this.jwtService.sign({ id: user._id });
+
         return {
           status: 'Success',
           message: 'Login successfully',
@@ -100,6 +101,10 @@ export class AuthService {
     if (!user) {
       return { status: 'Failed', message: 'Invalid email' };
     }
+    if (user.verified == false) {
+      return { status: 'Verify', message: 'Please verify your email' };
+    }
+    await this.otpService.sendOTPModifyPassword(user);
     return {
       status: 'Success',
       message: 'Password reset otp sent to your email',
@@ -116,7 +121,9 @@ export class AuthService {
     if (!user) {
       return { status: 'Failed', message: 'Invalid email' };
     }
-
+    if (user.verified == false) {
+      return { status: 'Verify', message: 'Please verify your email' };
+    }
     const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (isPasswordMatched) {

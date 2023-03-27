@@ -17,8 +17,8 @@ export class OtpService {
 
     private mailService: MailService,
   ) {}
-  //!send-otp to email for verification
-  async sendOTPVerificationEmail({ _id, email }): Promise<any> {
+  //!create an otp record
+  async createOTPRecord(_id: string): Promise<any> {
     const otp = OTPGenerator.generate(4, {
       upperCaseAlphabets: true,
       lowerCaseAlphabets: true,
@@ -28,19 +28,31 @@ export class OtpService {
     //hash the unique string
     const hashedOTP = await bcrypt.hash(otp, 10);
     //set values in userVerification collection
-    const OTPRecord = this.otpModel.create({
+    this.otpModel.create({
       userID: _id,
       otp: hashedOTP,
       createdAt: Date.now(),
       expiresAt: Date.now() + 300000,
     });
-    await this.mailService.sendUserConfirmationEmail(email, otp);
+    return otp;
+  }
+  //!send-otp to email for verification
+  async sendOTPVerificationEmail({ _id, email }): Promise<any> {
+    const OTPRecord = await this.createOTPRecord(_id);
+    await this.mailService.sendUserConfirmationEmail(email, OTPRecord);
     return {
       status: 'Success',
       message: 'OTP has been sent to your email',
     };
   }
-
+  async sendOTPModifyPassword({ _id, email }): Promise<any> {
+    const OTPRecord = await this.createOTPRecord(_id);
+    await this.mailService.sendOTPForgetPasswordEmail(email, OTPRecord);
+    return {
+      status: 'Success',
+      message: 'OTP to modify your password has been sent to your email',
+    };
+  }
   //!verify-modify-password
   async verifyOTPModifyPassword(userID: string, otp: string): Promise<any> {
     if (!otp || !userID) {
