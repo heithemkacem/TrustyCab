@@ -9,7 +9,7 @@ export class OTP extends Document {
   userID: string;
 
   @Prop()
-  otp: number;
+  otp: string;
 
   @Prop()
   expiresAt: Date;

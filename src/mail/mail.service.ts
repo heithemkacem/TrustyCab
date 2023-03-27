@@ -7,14 +7,13 @@ export class MailService {
   async sendUserConfirmationEmail(email: string, otp: number) {
     await this.mailerService.sendMail({
       to: email,
-      // from: '"Support Team" <support@example.com>', // override default from
       subject: 'Welcome to TrustyCab App! Confirm your Email',
-      template: './confirmation', // `.hbs` extension is appended automatically
-      context: {
-        // ✏️ filling curly brackets with content
-        name: email,
-        otp: otp,
-      },
+      html: `<h1>Hi there!</h1> 
+      <p>Thanks for signing up for TrustyCab App. We're excited to have you on board.</p>
+      <p>Please confirm your email address by entering the following OTP:</p>
+      <h2>${otp}</h2>
+      <p>Thanks,</p>
+      <p>TrustyCab Team</p>`,
     });
   }
 }

@@ -14,5 +14,6 @@ import { UserSchema } from 'src/auth/schemas/user.schema';
   ],
   providers: [OtpService],
   controllers: [OtpController],
+  exports: [OtpService],
 })
 export class OtpModule {}

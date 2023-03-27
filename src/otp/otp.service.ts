@@ -19,36 +19,31 @@ export class OtpService {
   ) {}
   //!send-otp to email for verification
   async sendOTPVerificationEmail({ _id, email }): Promise<any> {
-    try {
-      const otp = OTPGenerator.generate(4, {
-        upperCaseAlphabets: false,
-        lowerCaseAlphabets: false,
-        specialChars: false,
-        digits: true,
-      });
+    const otp = OTPGenerator.generate(4, {
+      upperCaseAlphabets: true,
+      lowerCaseAlphabets: true,
+      specialChars: true,
+      digits: true,
+    });
 
-      //hash the unique string
-      const hashedOTP = await bcrypt.hash(otp, 20);
-      //set values in userVerification collection
-      const OTPRecord = new this.otpModel({
-        userID: _id,
-        otp: hashedOTP,
-        createdAt: Date.now(),
-        expiresAt: Date.now() + 300000,
-      });
-      await OTPRecord.save();
-      await this.mailService.sendUserConfirmationEmail(email, otp);
-      return {
-        status: 'Success',
-        message: 'OTP has been sent to your email',
-      };
-    } catch (error) {
-      throw error;
-    }
+    //hash the unique string
+    const hashedOTP = await bcrypt.hash(otp, 20);
+    //set values in userVerification collection
+    const OTPRecord = this.otpModel.create({
+      userID: _id,
+      otp: hashedOTP,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 300000,
+    });
+    await this.mailService.sendUserConfirmationEmail(email, otp);
+    return {
+      status: 'Success',
+      message: 'OTP has been sent to your email',
+    };
   }
 
   //!verify-modify-password
-  async verifyOTPModifyPassword(userID: string, otp: number): Promise<any> {
+  async verifyOTPModifyPassword(userID: string, otp: string): Promise<any> {
     if (!otp || !userID) {
       return {
         status: 'Failed',
@@ -91,7 +86,7 @@ export class OtpService {
   }
 
   //!verify
-  async verifyOTP(userID: string, otp: number): Promise<any> {
+  async verifyOTP(userID: string, otp: string): Promise<any> {
     if (!otp || !userID) {
       //Empty details are not allowed
       return {
@@ -159,24 +154,20 @@ export class OtpService {
 
   //!resend OTP Function
   async resendOTP(userID: string, email: string): Promise<any> {
-    try {
-      if (!userID || !email) {
-        return {
-          status: 'Failed',
-          message: 'Empty details are not allowed',
-        };
-      } else {
-        // delete existing records and resend
-        await this.otpModel.deleteMany({ userID: userID });
-        const _id = userID;
-        await this.sendOTPVerificationEmail({ _id, email });
-        return {
-          status: 'Success',
-          message: 'OTP has been resent',
-        };
-      }
-    } catch (error) {
-      throw error.message;
+    if (!userID || !email) {
+      return {
+        status: 'Failed',
+        message: 'Empty details are not allowed',
+      };
+    } else {
+      // delete existing records and resend
+      await this.otpModel.deleteMany({ userID: userID });
+      const _id = userID;
+      await this.sendOTPVerificationEmail({ _id, email });
+      return {
+        status: 'Success',
+        message: 'OTP has been resent',
+      };
     }
   }
 }

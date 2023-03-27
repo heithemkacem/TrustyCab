@@ -4,4 +4,16 @@ import { OtpService } from './otp.service';
 @Controller('otp')
 export class OtpController {
   constructor(private OTPService: OtpService) {}
+  @Post('verify')
+  verifyOTP(@Body() { userID, otp }): Promise<any> {
+    return this.OTPService.verifyOTP(userID, otp);
+  }
+  @Post('verify-modify-password')
+  verifyModifyPasswordOTP(@Body() { userID, otp }): Promise<any> {
+    return this.OTPService.verifyOTPModifyPassword(userID, otp);
+  }
+  @Post('resend')
+  resendOTP(@Body() { userID, email }): Promise<any> {
+    return this.OTPService.resendOTP(userID, email);
+  }
 }
