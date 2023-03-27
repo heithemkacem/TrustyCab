@@ -11,20 +11,20 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
+  signUp(@Body() signUpDto: SignUpDto): Promise<any> {
     return this.authService.signUp(signUpDto);
   }
 
   @Get('/login')
-  login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
+  login(@Body() loginDto: LoginDto): Promise<any> {
     return this.authService.login(loginDto);
   }
   @Post('/forget-password')
-  forget(@Body() forgetDto: ForgetDto): Promise<{ user: boolean }> {
+  forget(@Body() forgetDto: ForgetDto): Promise<any> {
     return this.authService.forgetPassword(forgetDto);
   }
   @Post('/reset-password')
-  reset(@Body() resetDto: ResetDto): Promise<{ user: boolean }> {
+  reset(@Body() resetDto: ResetDto): Promise<any> {
     return this.authService.resetPassword(resetDto);
   }
 }

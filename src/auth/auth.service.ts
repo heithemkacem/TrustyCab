@@ -18,14 +18,32 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
+  //!Get User
+  async getUser(id: string): Promise<any> {
+    const user = await this.userModel.findById({ _id: id });
+    if (!user) {
+      return { status: 'Failed', message: 'Invalid user' };
+    }
+    return user;
+  }
+  //!Get User By Email
+  async getUserByEmail(email: string): Promise<any> {
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      return { status: 'Failed', message: 'Invalid user' };
+    }
+    return user;
+  }
+  //!Sign Up
+  async signUp(signUpDto: SignUpDto): Promise<any> {
     const { fullName, phone, email, password } = signUpDto;
-
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userAleardyExist = await this.userModel.findOne({ email });
-
+    const userAleardyExist = await this.getUserByEmail(email);
     if (userAleardyExist) {
-      throw new UnauthorizedException('Email aleardy in use');
+      return {
+        status: 'Failed',
+        message: 'User aleardy exist',
+      };
     }
     const user = await this.userModel.create({
       fullName,
@@ -34,60 +52,76 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    const token = this.jwtService.sign({ id: user._id });
-
-    return { token };
+    return {
+      status: 'Success',
+      message: 'User created successfully',
+      fullname: fullName,
+    };
   }
-
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
+  //!Login
+  async login(loginDto: LoginDto): Promise<any> {
     const { email, password } = loginDto;
 
-    const user = await this.userModel.findOne({ email });
+    const user = await this.getUserByEmail(email);
 
     if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
+      return {
+        status: 'Failed',
+        message: 'Invalid email or password',
+      };
     }
 
     const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatched) {
-      throw new UnauthorizedException('Invalid email or password');
+      return {
+        status: 'Failed',
+        message: 'Invalid email or password',
+      };
     }
-
     const token = this.jwtService.sign({ id: user._id });
 
-    return { token };
+    return {
+      status: 'Success',
+      message: 'Login successfully',
+      token,
+    };
   }
-  async forgetPassword(forgetDto: ForgetDto): Promise<{ user: boolean }> {
+  //!Forget Password
+  async forgetPassword(forgetDto: ForgetDto): Promise<any> {
     const { email } = forgetDto;
 
-    const user = await this.userModel.findOne({ email });
+    const user = await this.getUserByEmail(email);
 
     if (!user) {
-      return { user: false };
+      return { status: 'Failed', message: 'Invalid email' };
     }
-    return { user: true };
+    return {
+      status: 'Success',
+      message: 'Password reset otp sent to your email',
+    };
   }
-  async resetPassword(resetDto: ResetDto): Promise<{ user: boolean }> {
+  //!Reset Password
+  async resetPassword(resetDto: ResetDto): Promise<any> {
     const { id, password, confirmPassword } = resetDto;
     if (password !== confirmPassword) {
-      throw new UnauthorizedException('Password not matched');
+      return { status: 'Failed', message: 'Password not matched' };
     }
-    const user = await this.userModel.findById({ _id: id });
+    const user = await this.getUser(id);
 
     if (!user) {
-      throw new UnauthorizedException('Invalid user id');
+      return { status: 'Failed', message: 'Invalid email' };
     }
 
     const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (isPasswordMatched) {
-      throw new UnauthorizedException('Password aleardy in use');
+      return { status: 'Failed', message: 'Password aleardy exist' };
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
       user.password = hashedPassword;
       await user.save();
     }
-    return { user: true };
+    return { status: 'Success', message: 'Password reset successfully' };
   }
 }
