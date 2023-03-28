@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class ResetDto {
   //check also for _Id in the user model
@@ -7,11 +7,13 @@ export class ResetDto {
   readonly id: string;
   @IsNotEmpty()
   @IsString()
-  @MinLength(6)
+  @MinLength(8)
+  @MaxLength(24)
   readonly password: string;
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(6)
+  @MinLength(8)
+  @MaxLength(24)
   readonly confirmPassword: string;
 }

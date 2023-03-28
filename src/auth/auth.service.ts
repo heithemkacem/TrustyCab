@@ -59,7 +59,6 @@ export class AuthService {
   //!Login
   async login(loginDto: LoginDto): Promise<any> {
     const { email, password } = loginDto;
-
     const user = await this.getUserByEmail(email);
 
     if (user == null) {
@@ -68,27 +67,34 @@ export class AuthService {
         message: 'Invalid email or password',
       };
     } else {
-      if (user.verified == false) {
+      const isPasswordMatched = await bcrypt.compare(password, user.password);
+      if (!isPasswordMatched) {
         return {
-          status: 'Verify',
-          message: 'Please verify your email',
+          status: 'Failed',
+          message: 'Invalid email or password',
         };
       } else {
-        const isPasswordMatched = await bcrypt.compare(password, user.password);
-        if (!isPasswordMatched) {
+        if (user.verified == false) {
+          await this.otpService.sendOTPVerificationEmail(user);
           return {
-            status: 'Failed',
-            message: 'Invalid email or password',
+            status: 'Verify',
+            message: 'Please verify your email',
+            userID: user._id,
+          };
+        } else {
+          const token = this.jwtService.sign({
+            id: user._id,
+            email: user.email,
+            fullName: user.fullName,
+            phone: user.phone,
+          });
+
+          return {
+            status: 'Success',
+            message: 'Login successfully',
+            token: token,
           };
         }
-
-        const token = this.jwtService.sign({ id: user._id });
-
-        return {
-          status: 'Success',
-          message: 'Login successfully',
-          token,
-        };
       }
     }
   }
@@ -108,6 +114,7 @@ export class AuthService {
     return {
       status: 'Success',
       message: 'Password reset otp sent to your email',
+      id: user._id,
     };
   }
   //!Reset Password

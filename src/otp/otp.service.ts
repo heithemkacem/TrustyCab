@@ -187,4 +187,29 @@ export class OtpService {
       };
     }
   }
+
+  //!resend OTP Function
+  async modifyPasswordResendOTP(userID: string): Promise<any> {
+    if (!userID) {
+      return {
+        status: 'Failed',
+        message: 'Empty details are not allowed',
+      };
+    } else {
+      // delete existing records and resend
+      await this.otpModel.deleteMany({ userID: userID });
+      const user = await this.userModel.findById(userID);
+      if (!user.verified) {
+        return {
+          status: 'Failed',
+          message: 'Account is not verified',
+        };
+      }
+      await this.sendOTPModifyPassword(user);
+      return {
+        status: 'Success',
+        message: 'OTP has been resent',
+      };
+    }
+  }
 }

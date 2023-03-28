@@ -1,9 +1,8 @@
 import {
-  IsBoolean,
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsString,
+  MaxLength,
   MinLength,
 } from 'class-validator';
 
@@ -12,7 +11,6 @@ export class SignUpDto {
   @IsString()
   readonly fullName: string;
   @IsNotEmpty()
-  @IsNumber()
   readonly phone: string;
   @IsNotEmpty()
   @IsEmail({}, { message: 'Please enter correct email' })
@@ -20,6 +18,7 @@ export class SignUpDto {
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(6)
+  @MinLength(8)
+  @MaxLength(24)
   readonly password: string;
 }
