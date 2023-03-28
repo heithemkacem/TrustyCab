@@ -22,7 +22,9 @@ const EmailVerification = ({ navigation, route }) => {
 
   const dispatch = useDispatch();
   const resendEmail = async () => {
-    dispatch(ResendEmailAction(route, setResendStatus));
+    if (resendStatus === "Resend") {
+      dispatch(ResendEmailAction(route, setResendStatus));
+    }
   };
   const handleEmailVerification = async () => {
     setVerifying(true);

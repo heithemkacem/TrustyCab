@@ -28,11 +28,7 @@ const Dashboard = ({ navigation }) => {
   };
   return (
     <MainContainer>
-      <View
-        style={{
-          marginTop: "10%",
-        }}
-      >
+      <View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <IconHeader
             name="taxi"

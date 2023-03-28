@@ -37,7 +37,7 @@ const RootStack = () => {
           headerLeft: (props) => <HeaderBackButton {...props} />,
           headerTintColor: black,
           headerStyle: {
-            height: 110,
+            height: 70,
             borderBottomWidth: 0,
             backgroundColor: white,
             shadowColor: "transparent",

@@ -7,10 +7,7 @@ import { moveTo } from "../util/moveTo";
 const HomePage = ({ navigation }) => {
   return (
     <MainContainer>
-      <Logo
-        src={require("./../assets/logo.png")}
-        style={{ marginTop: "35%" }}
-      />
+      <Logo src={require("./../assets/logo.png")} />
       <View
         style={{
           height: 40,
