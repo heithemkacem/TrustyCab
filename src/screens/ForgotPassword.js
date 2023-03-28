@@ -32,7 +32,9 @@ const ForgotPassword = ({ navigation }) => {
           initialValues={{ email: "" }}
           validationSchema={ForgetPassSchema}
           onSubmit={(values, { setSubmitting }) => {
-            dispatch(ForgotPasswordAction(values, setSubmitting, moveTo, t));
+            dispatch(
+              ForgotPasswordAction(values, setSubmitting, moveTo, navigation)
+            );
           }}
         >
           {({

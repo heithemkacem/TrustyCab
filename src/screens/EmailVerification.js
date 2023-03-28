@@ -18,22 +18,11 @@ const EmailVerification = ({ navigation, route }) => {
   const [pinReady, setPinReady] = useState(false);
   const [verifying, setVerifying] = useState(false);
   // resending email states
-  const [activeResend, setActiveResend] = useState(false);
   const [resendStatus, setResendStatus] = useState("Resend");
-  const [resendingEmail, setResendingEmail] = useState(false);
 
   const dispatch = useDispatch();
-  const resendEmail = async (triggerTimer) => {
-    dispatch(
-      ResendEmailAction(
-        route,
-        setResendingEmail,
-        setResendStatus,
-        setActiveResend,
-        triggerTimer,
-        t
-      )
-    );
+  const resendEmail = async () => {
+    dispatch(ResendEmailAction(route, setResendStatus));
   };
   const handleEmailVerification = async () => {
     setVerifying(true);
@@ -83,13 +72,7 @@ const EmailVerification = ({ navigation, route }) => {
             <ActivityIndicator size={"small"} color={white} />
           </RegularButton>
         )}
-        <ResendTimer
-          activeResend={activeResend}
-          setActiveResend={setActiveResend}
-          resendStatus={resendStatus}
-          resendingEmail={resendingEmail}
-          resendEmail={resendEmail}
-        />
+        <ResendTimer resendStatus={resendStatus} resendEmail={resendEmail} />
       </ScrollView>
     </MainContainer>
   );

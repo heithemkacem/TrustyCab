@@ -72,7 +72,7 @@ const CodeInput = ({
   useEffect(() => {
     //toggle pincode
     if (code.length === maxLength) {
-      dispatch(VerifyOTPAction(code, route, setPinReady, moveTo, t));
+      dispatch(VerifyOTPAction(code, route, setPinReady, moveTo, navigation));
     }
     return () => {
       setPinReady(false);

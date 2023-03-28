@@ -30,7 +30,7 @@ const Login = ({ navigation }) => {
           initialValues={{ email: "", password: "" }}
           validationSchema={LoginSchema}
           onSubmit={(values, { setSubmitting }) => {
-            dispatch(LoginAction(values, setSubmitting, moveTo, t));
+            dispatch(LoginAction(values, setSubmitting, moveTo, navigation));
           }}
         >
           {({

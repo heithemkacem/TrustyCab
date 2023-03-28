@@ -11,7 +11,7 @@ import styled from "styled-components/native";
 import { useDispatch } from "react-redux";
 import {
   ResetPasswordAction,
-  ResendEmailAction,
+  ResendModifyPasswordOTP,
 } from "./../_actions/logicHandlerActions/authActions";
 import BigText from "../components/texts/BigText";
 import { ResetSchema } from "../util/validationSchemas";
@@ -34,21 +34,12 @@ const ResetPassword = ({ navigation, route }) => {
   const [code, setCode] = useState("");
   const [pinReady, setPinReady] = useState(false);
   // resending email states
-  const [activeResend, setActiveResend] = useState(false);
   const [resendStatus, setResendStatus] = useState("Resend");
-  const [resendingEmail, setResendingEmail] = useState(false);
 
-  const resendEmail = async (triggerTimer) => {
-    dispatch(
-      ResendEmailAction(
-        route,
-        setResendingEmail,
-        setResendStatus,
-        setActiveResend,
-        triggerTimer,
-        t
-      )
-    );
+  const resendEmail = async () => {
+    if (resendStatus === "Resend") {
+      dispatch(ResendModifyPasswordOTP(route, setResendStatus));
+    }
   };
   return (
     <MainContainer>
@@ -70,10 +61,7 @@ const ResetPassword = ({ navigation, route }) => {
         />
         <ResendTimer
           pinReady={pinReady}
-          activeResend={activeResend}
-          setActiveResend={setActiveResend}
           resendStatus={resendStatus}
-          resendingEmail={resendingEmail}
           resendEmail={resendEmail}
           style={{ marginBottom: 25 }}
         />
@@ -82,7 +70,13 @@ const ResetPassword = ({ navigation, route }) => {
           validationSchema={ResetSchema}
           onSubmit={(values, { setSubmitting }) => {
             dispatch(
-              ResetPasswordAction(values, setSubmitting, moveTo, route, t)
+              ResetPasswordAction(
+                values,
+                setSubmitting,
+                moveTo,
+                route,
+                navigation
+              )
             );
           }}
         >

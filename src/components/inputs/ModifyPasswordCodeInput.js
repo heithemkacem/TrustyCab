@@ -4,7 +4,6 @@ import styled from "styled-components/native";
 import { colors } from "../colors";
 import { useDispatch } from "react-redux";
 import { VerifyOTPlModifyPasswordAction } from "./../../_actions/logicHandlerActions/authActions";
-
 const { secondary, black, accent } = colors;
 const StyledCodeSection = styled.View`
   flex: 1;
@@ -71,7 +70,7 @@ const CodeInput = ({
   useEffect(() => {
     //toggle pincode
     if (code.length === maxLength) {
-      dispatch(VerifyOTPlModifyPasswordAction(code, route, setPinReady, t));
+      dispatch(VerifyOTPlModifyPasswordAction(code, route, setPinReady));
     }
     return () => {
       setPinReady(false);

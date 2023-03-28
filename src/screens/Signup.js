@@ -31,7 +31,7 @@ const SignUp = ({ navigation }) => {
           }}
           validationSchema={SignupSchema}
           onSubmit={(values, { setSubmitting }) => {
-            dispatch(SignupAction(values, setSubmitting, moveTo, t));
+            dispatch(SignupAction(values, setSubmitting, moveTo, navigation));
           }}
         >
           {({
