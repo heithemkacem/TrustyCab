@@ -7,13 +7,13 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "../../styles/styles";
-const FixedStars = ({ stars, bgColor }) => {
+const FixedStars = ({ stars }) => {
   const starRatingOptions = [1, 2, 3, 4, 5];
 
   const [starRating, setStarRating] = useState(stars);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: bgColor }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.starsContainer}>
         <View style={styles.stars}>
           {starRatingOptions.map((option) => (

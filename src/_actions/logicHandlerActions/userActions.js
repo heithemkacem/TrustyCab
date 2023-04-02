@@ -34,6 +34,37 @@ export const getTaxi =
         setSubmitting(false);
       });
   };
+
+export const updateRate = (rate, taxiBanner) => (dispatch) => {
+  axios
+    .post(`${currentUrl}/taxi/rate`, {
+      taxiBanner: taxiBanner,
+      reviewScore: rate,
+    })
+    .then((response) => {
+      if (response.data.status === "Failed") {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: response.data.message,
+        });
+      } else if (response.data.status === "Success") {
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: "Your rate has been updated",
+        });
+        dispatch(setTaxi(response.data.data));
+      }
+    })
+    .catch((error) => {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error.response.data.message,
+      });
+    });
+};
 export const setTaxi = (taxi) => ({
   //?Set the user in the store
   type: SET_TAXI,

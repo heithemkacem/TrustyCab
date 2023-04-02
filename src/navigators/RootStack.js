@@ -27,9 +27,6 @@ const Stack = createStackNavigator();
 const { white, black } = colors;
 
 const RootStack = () => {
-  const auth = useSelector((state) => state.auth);
-
-  let { isConnected } = auth;
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -53,27 +50,25 @@ const RootStack = () => {
           },
         }}
       >
-        {isConnected ? (
-          <></>
-        ) : (
-          <>
-            <Stack.Screen
-              name="Slider"
-              component={Slider}
-              options={{
-                headerLeft: () => null,
-                headerTitle: "",
-              }}
-            />
+        <>
+          <Stack.Screen
+            name="Slider"
+            component={Slider}
+            options={{
+              headerLeft: () => null,
+              headerTitle: "",
+            }}
+          />
 
-            <Stack.Screen
-              name="MainScreen"
-              //passing the user and the dahsboard component to the component prop inside a protected route
-              component={MainScreen}
-              options={{
-                headerTitle: "Powered by firas kacem",
-                //logout button
-                /*headerRight: () => (
+          <Stack.Screen
+            name="MainScreen"
+            //passing the user and the dahsboard component to the component prop inside a protected route
+            component={MainScreen}
+            options={{
+              headerTitle: "Powered by firas kacem",
+              headerLeft: () => null,
+              //logout button
+              /*headerRight: () => (
                   <Pressable
                     onPress={() => {
                       //logout
@@ -87,69 +82,67 @@ const RootStack = () => {
                     />
                   </Pressable>
                 ), */
-              }}
-            />
-            <Stack.Screen
-              name="Taxi"
-              //passing the user and the dahsboard component to the component prop inside a protected route
-              component={TaxiScreen}
-              options={{
-                //show only the back button and no title
-                header: () => null,
-              }}
-            />
-            <Stack.Screen
-              name="Camera"
-              //passing the user and the dahsboard component to the component prop inside a protected route
-              component={UserCamera}
-              options={{
-                //show only the back button and no title
-                headerStyle: {
-                  backgroundColor: "#FFCC00",
-                },
-              }}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{
-                headerTitle: "Login",
-              }}
-            />
+            }}
+          />
+          <Stack.Screen
+            name="Taxi"
+            //passing the user and the dahsboard component to the component prop inside a protected route
+            component={TaxiScreen}
+            options={{
+              //show only the back button and no title
+              header: () => null,
+            }}
+          />
+          <Stack.Screen
+            name="Camera"
+            //passing the user and the dahsboard component to the component prop inside a protected route
+            component={UserCamera}
+            options={{
+              //show only the back button and no title
+              headerStyle: {
+                backgroundColor: "#FFCC00",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              headerTitle: "Login",
+            }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{
+              headerTitle: "Sign Up",
+            }}
+          />
 
-            <Stack.Screen
-              name="Signup"
-              component={Signup}
-              options={{
-                headerTitle: "Sign Up",
-              }}
-            />
+          <Stack.Screen
+            name="EmailVerification"
+            component={EmailVerification}
+            options={{
+              headerTitle: "Email Verification",
+            }}
+          />
 
-            <Stack.Screen
-              name="EmailVerification"
-              component={EmailVerification}
-              options={{
-                headerTitle: "Email Verification",
-              }}
-            />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+            options={{
+              headerTitle: "Forgot Password",
+            }}
+          />
 
-            <Stack.Screen
-              name="ForgotPassword"
-              component={ForgotPassword}
-              options={{
-                headerTitle: "Forgot Password",
-              }}
-            />
-
-            <Stack.Screen
-              name="ResetPassword"
-              component={ResetPassword}
-              options={{
-                headerTitle: "Reset Password",
-              }}
-            />
-          </>
-        )}
+          <Stack.Screen
+            name="ResetPassword"
+            component={ResetPassword}
+            options={{
+              headerTitle: "Reset Password",
+            }}
+          />
+        </>
       </Stack.Navigator>
     </NavigationContainer>
   );

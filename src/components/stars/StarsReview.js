@@ -8,13 +8,19 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "../../styles/styles";
+import { updateRate } from "../../_actions/logicHandlerActions/userActions";
+import LoginModel from "../modals/LoginModel";
+import { moveTo } from "../../util/moveTo";
+const { useDispatch, useSelector } = require("react-redux");
 const StarsReview = ({ stars, bgColor }) => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+  let { isConnected } = auth;
+  const taxiBanner = useSelector((state) => state.taxi.taxi.taxiBanner);
   const starRatingOptions = [1, 2, 3, 4, 5];
-
   const [starRating, setStarRating] = useState(stars);
-
   const animatedButtonScale = new Animated.Value(1);
-
+  const [modalVisible, setModalVisible] = useState(false);
   const handlePressIn = () => {
     Animated.spring(animatedButtonScale, {
       toValue: 1.5,
@@ -32,6 +38,14 @@ const StarsReview = ({ stars, bgColor }) => {
       bounciness: 4,
     }).start();
   };
+  const handlePress = (option) => {
+    if (isConnected === true) {
+      setStarRating(option);
+      dispatch(updateRate(option, taxiBanner));
+    } else {
+      setModalVisible(true);
+    }
+  };
 
   const animatedScaleStyle = {
     transform: [{ scale: animatedButtonScale }],
@@ -41,14 +55,14 @@ const StarsReview = ({ stars, bgColor }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: bgColor }}>
       <View style={styles.starsContainer}>
         <Text style={styles.starsHeading}>
-          {starRating ? `${starRating} Stars` : "Give a Rating"}
+          {starRating ? `${starRating} Stars` : "Give a rating"}
         </Text>
         <View style={styles.stars}>
           {starRatingOptions.map((option) => (
             <TouchableWithoutFeedback
               onPressIn={() => handlePressIn(option)}
               onPressOut={() => handlePressOut(option)}
-              onPress={() => setStarRating(option)}
+              onPress={() => handlePress(option)}
               key={option}
             >
               <Animated.View style={animatedScaleStyle}>
@@ -65,7 +79,16 @@ const StarsReview = ({ stars, bgColor }) => {
             </TouchableWithoutFeedback>
           ))}
         </View>
+        <LoginModel
+          modalVisible={modalVisible}
+          buttonText="Go to login"
+          headerText="Login required !"
+          message="Please connect to the your account to rate the taxi"
+          navigation={navigation}
+          moveTo={moveTo}
+        />
       </View>
+      ;
     </SafeAreaView>
   );
 };

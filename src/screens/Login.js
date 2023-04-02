@@ -13,9 +13,7 @@ import { moveTo } from "../util/moveTo";
 import { LoginSchema } from "../util/validationSchemas";
 const Login = ({ navigation }) => {
   const { white } = colors;
-
   const dispatch = useDispatch();
-  console.log(navigation);
   return (
     <MainContainer>
       <ScrollView showsVerticalScrollIndicator={false}>

@@ -2,12 +2,12 @@ import React from "react";
 import IconHeader from "../icons/IconHeader";
 import StarsReview from "../stars/StarsReview";
 import FixedStars from "../stars/FixedStars";
-import { View, ScrollView, Dimensions } from "react-native";
+import { View, ScrollView } from "react-native";
 import BigText from "../texts/BigText";
 import { colors } from "../colors";
 const { white } = colors;
 
-const TaxiView = ({ color, score }) => {
+const TaxiView = ({ color, score, navigation }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View
@@ -16,10 +16,13 @@ const TaxiView = ({ color, score }) => {
           padding: 20,
         }}
       >
-        <FixedStars bgColor={color} stars={score} />
+        <FixedStars stars={score} />
         <IconHeader name="taxi" color={white} bgColor={color} />
 
-        <BigText color={white}>This is an avearge rating taxi </BigText>
+        <BigText color={white}>
+          This is {score === 3 ? "an avearge" : score > 3 ? "a good" : "a bad"}{" "}
+          rating taxi
+        </BigText>
       </View>
       <View
         style={{
@@ -27,7 +30,7 @@ const TaxiView = ({ color, score }) => {
           padding: 40,
         }}
       >
-        <StarsReview />
+        <StarsReview navigation={navigation} stars={score} />
       </View>
     </ScrollView>
   );

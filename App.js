@@ -12,8 +12,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwt_decode from "jwt-decode";
 import Toast from "react-native-toast-message";
-import TaxiScreen from "./src/screens/TaxiScreen";
 export default function App() {
+  //logout user if token is expired
   AsyncStorage.getItem("jwt").then((token) => {
     if (token) {
       const decode = jwt_decode(token);
