@@ -20,9 +20,9 @@ export class OtpService {
   //!create an otp record
   async createOTPRecord(_id: string): Promise<any> {
     const otp = OTPGenerator.generate(4, {
-      upperCaseAlphabets: true,
-      lowerCaseAlphabets: true,
-      specialChars: true,
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
       digits: true,
     });
     //hash the unique string

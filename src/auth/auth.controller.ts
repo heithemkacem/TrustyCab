@@ -13,7 +13,6 @@ export class AuthController {
   signUp(@Body() signUpDto: SignUpDto): Promise<any> {
     return this.authService.signUp(signUpDto);
   }
-
   @Post('/login')
   login(@Body() loginDto: LoginDto): Promise<any> {
     //show the loginDto in the console

@@ -139,7 +139,7 @@ export class AuthService {
       const hashedPassword = await bcrypt.hash(password, 10);
       user.password = hashedPassword;
       await user.save();
+      return { status: 'Success', message: 'Password reset successfully' };
     }
-    return { status: 'Success', message: 'Password reset successfully' };
   }
 }
