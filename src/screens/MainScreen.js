@@ -10,7 +10,9 @@ import { Formik } from "formik";
 import { taxiBannerSchema } from "../util/validationSchemas";
 import StyledTextInputWithSubmit from "../components/inputs/StyledTextInputWithSubmit";
 import { colors } from "../components/colors";
-const Dashboard = ({ navigation }) => {
+import { useDispatch } from "react-redux";
+import { getTaxi } from "../_actions/logicHandlerActions/userActions";
+const MainScreen = ({ navigation }) => {
   const { accent, white } = colors;
   const [image, setImage] = useState(null);
   const pickImage = async () => {
@@ -26,6 +28,7 @@ const Dashboard = ({ navigation }) => {
       setImage(result.assets[0].base64);
     }
   };
+  const dispatch = useDispatch();
   return (
     <MainContainer>
       <View>
@@ -47,8 +50,10 @@ const Dashboard = ({ navigation }) => {
           <Formik
             initialValues={{ taxiBanner: "" }}
             validationSchema={taxiBannerSchema}
-            onSubmit={(values) => {
-              alert(values);
+            onSubmit={(values, { setSubmitting }) => {
+              dispatch(
+                getTaxi(values.taxiBanner, navigation, moveTo, setSubmitting)
+              );
             }}
           >
             {({
@@ -88,5 +93,4 @@ const Dashboard = ({ navigation }) => {
     </MainContainer>
   );
 };
-
-export default Dashboard;
+export default MainScreen;

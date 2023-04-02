@@ -41,7 +41,7 @@ const StarsReview = ({ stars, bgColor }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: bgColor }}>
       <View style={styles.starsContainer}>
         <Text style={styles.starsHeading}>
-          {starRating ? `${starRating} Stars` : "Tap to rate"}
+          {starRating ? `${starRating} Stars` : "Give a Rating"}
         </Text>
         <View style={styles.stars}>
           {starRatingOptions.map((option) => (

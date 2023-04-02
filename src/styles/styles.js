@@ -108,6 +108,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: white,
+    marginBottom: 15,
   },
   stars: {
     display: "flex",

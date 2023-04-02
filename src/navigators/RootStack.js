@@ -1,15 +1,14 @@
 import React from "react";
 //!Importing all the screens in our project
-import Slider from "../components/slider/Slider";
+import Slider from "../screens/Slider";
 import Login from "./../screens/Login";
 import Signup from "./../screens/Signup";
 import EmailVerification from "../screens/EmailVerification";
 import ForgotPassword from "../screens/ForgotPassword";
 import ResetPassword from "../screens/ResetPassword";
-import HomePage from "../screens/HomePage";
 
-import Dashboard from "../screens/Dashboard";
-import Camera from "../screens/Camera";
+import MainScreen from "../screens/MainScreen";
+import UserCamera from "../screens/UserCamera";
 
 //!import of expo and react native modules
 import { colors } from "../components/colors";
@@ -22,6 +21,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import store from "../_actions/store";
 import { Logout } from "./../_actions/logicHandlerActions/authActions";
 import { useSelector } from "react-redux";
+import TaxiScreen from "../screens/TaxiScreen";
 
 const Stack = createStackNavigator();
 const { white, black } = colors;
@@ -33,6 +33,7 @@ const RootStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        initialRouteName="Slider"
         screenOptions={{
           headerLeft: (props) => <HeaderBackButton {...props} />,
           headerTintColor: black,
@@ -53,17 +54,26 @@ const RootStack = () => {
         }}
       >
         {isConnected ? (
+          <></>
+        ) : (
           <>
             <Stack.Screen
-              name="Dashboard"
-              //passing the user and the dahsboard component to the component prop inside a protected route
-              component={Dashboard}
+              name="Slider"
+              component={Slider}
               options={{
                 headerLeft: () => null,
-                headerTitle: "TrustyCab",
-                //logout button
+                headerTitle: "",
+              }}
+            />
 
-                headerRight: () => (
+            <Stack.Screen
+              name="MainScreen"
+              //passing the user and the dahsboard component to the component prop inside a protected route
+              component={MainScreen}
+              options={{
+                headerTitle: "Powered by firas kacem",
+                //logout button
+                /*headerRight: () => (
                   <Pressable
                     onPress={() => {
                       //logout
@@ -76,34 +86,29 @@ const RootStack = () => {
                       color="black"
                     />
                   </Pressable>
-                ),
+                ), */
               }}
             />
-
+            <Stack.Screen
+              name="Taxi"
+              //passing the user and the dahsboard component to the component prop inside a protected route
+              component={TaxiScreen}
+              options={{
+                //show only the back button and no title
+                header: () => null,
+              }}
+            />
             <Stack.Screen
               name="Camera"
               //passing the user and the dahsboard component to the component prop inside a protected route
-              component={Camera}
+              component={UserCamera}
               options={{
                 //show only the back button and no title
-                headerTitle: "",
                 headerStyle: {
                   backgroundColor: "#FFCC00",
                 },
               }}
             />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="Slider"
-              component={Slider}
-              options={{
-                headerLeft: () => null,
-                headerTitle: "",
-              }}
-            />
-
             <Stack.Screen
               name="Login"
               component={Login}
@@ -141,14 +146,6 @@ const RootStack = () => {
               component={ResetPassword}
               options={{
                 headerTitle: "Reset Password",
-              }}
-            />
-
-            <Stack.Screen
-              name="HomePage"
-              component={HomePage}
-              options={{
-                headerTitle: "Home Page",
               }}
             />
           </>

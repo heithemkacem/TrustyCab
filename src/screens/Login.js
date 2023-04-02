@@ -15,7 +15,7 @@ const Login = ({ navigation }) => {
   const { white } = colors;
 
   const dispatch = useDispatch();
-
+  console.log(navigation);
   return (
     <MainContainer>
       <ScrollView showsVerticalScrollIndicator={false}>

@@ -5,6 +5,7 @@ export const colors = {
   lightGray: "#6B7280",
   white: "#fff",
   black: "#000",
-  success: "#22C55E",
-  fail: "#EF4444",
+  success: "#00b200",
+  fail: "#e50000",
+  avearge: "#FDA50F",
 };

@@ -20,13 +20,12 @@ export default function App() {
       store.dispatch(setUser(decode));
       setAuth(token);
       const currentDate = Date.now() / 1000;
-      console.log(currentDate);
-      console.log(decode.exp);
       if (decode.exp < currentDate) {
         store.dispatch(Logout());
       }
     }
   });
+
   return (
     <Provider store={store}>
       <RootStack />

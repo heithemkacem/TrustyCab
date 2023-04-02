@@ -78,7 +78,7 @@ export const LoginAction =
           text1: "Success",
           text2: `${SUCCESS_MESSAGE} ${decode.fullName}`,
         });
-        moveTo(navigation, "Dashboard");
+        moveTo(navigation, "MainScreen");
       } else if (status === "Verify") {
         setSubmitting(false);
         moveTo(navigation, "EmailVerification", {

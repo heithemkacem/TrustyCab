@@ -7,21 +7,11 @@ import { styles } from "../styles/styles";
 import * as MediaLibrary from "expo-media-library";
 import PressableText from "../components/texts/PressableText";
 
-export default function CameraUser() {
+const UserCamera = () => {
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
-
-  useEffect(() => {
-    (async () => {
-      const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const mediaLibraryPermission =
-        await MediaLibrary.requestPermissionsAsync();
-      setHasCameraPermission(cameraPermission.status === "granted");
-      setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
-    })();
-  }, []);
 
   if (hasCameraPermission === undefined) {
     return <Text>Requesting permissions...</Text>;
@@ -56,6 +46,17 @@ export default function CameraUser() {
         setPhoto(undefined);
       });
     };
+    useEffect(() => {
+      (async () => {
+        const cameraPermission = await Camera.requestCameraPermissionsAsync();
+        const mediaLibraryPermission =
+          await MediaLibrary.requestPermissionsAsync();
+        setHasCameraPermission(cameraPermission.status === "granted");
+        setHasMediaLibraryPermission(
+          mediaLibraryPermission.status === "granted"
+        );
+      })();
+    }, []);
 
     return (
       <SafeAreaView style={styles.cameraContainer}>
@@ -92,4 +93,5 @@ export default function CameraUser() {
       <StatusBar style="auto" />
     </Camera>
   );
-}
+};
+export default UserCamera;
