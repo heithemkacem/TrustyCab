@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { OtpModule } from './otp/otp.module';
 import { MailModule } from './mail/mail.module';
 import { TaxiModule } from './taxi/taxi.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TaxiModule } from './taxi/taxi.module';
     OtpModule,
     MailModule,
     TaxiModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
