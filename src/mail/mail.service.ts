@@ -3,7 +3,10 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class MailService {
   constructor(private mailerService: MailerService) {}
-  async sendUserConfirmationEmail(email: string, otp: string): Promise<any> {
+  async sendUserConfirmationEmail(
+    email: string,
+    otp: string,
+  ): Promise<Boolean> {
     await this.mailerService.sendMail({
       to: email,
       subject: 'Welcome to TrustyCab App! Confirm your Email',
@@ -14,8 +17,12 @@ export class MailService {
       <p>Thanks,</p>
       <p>TrustyCab Team</p>`,
     });
+    return true;
   }
-  async sendOTPForgetPasswordEmail(email: string, otp: string): Promise<any> {
+  async sendOTPForgetPasswordEmail(
+    email: string,
+    otp: string,
+  ): Promise<Boolean> {
     await this.mailerService.sendMail({
       to: email,
       subject: ' TrustyCab App! Change Your Password OTP',
@@ -26,5 +33,6 @@ export class MailService {
       <p>Thanks,</p>
       <p>TrustyCab Team</p>`,
     });
+    return true;
   }
 }

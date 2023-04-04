@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { ObjectId } from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 
 export class CommentDTO {
   @IsNotEmpty()
@@ -9,7 +9,7 @@ export class CommentDTO {
   @IsString()
   readonly showUser: boolean;
   @IsNotEmpty()
-  readonly taxiId: ObjectId;
+  readonly taxiId: mongoose.Types.ObjectId;
   @IsNotEmpty()
-  readonly user: ObjectId;
+  readonly user: mongoose.Types.ObjectId;
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { isValidObjectId, Model } from 'mongoose';
-import { User } from 'src/auth/schemas/user.schema';
+import mongoose, { isValidObjectId, Model } from 'mongoose';
 import { OCRBannerDTO } from './dto/ocr-banner.dto';
 import { ReviewTaxiBannerDTO } from './dto/review-taxi-banner.dto';
 import { TaxiBannerDTO } from './dto/taxi-banner.dto';
 import { Taxi } from './schema/taxi.schema';
+import { CustomError, UserData } from 'src/error-handler/error-handler';
 
 @Injectable()
 export class TaxiService {
@@ -13,7 +13,7 @@ export class TaxiService {
     @InjectModel(Taxi.name)
     private taxiModel: Model<Taxi>,
   ) {}
-  async findByBanner(taxiBannerDTO: TaxiBannerDTO): Promise<any> {
+  async findByBanner(taxiBannerDTO: TaxiBannerDTO): Promise<UserData> {
     //get the existing taxi
     const { taxiBanner } = taxiBannerDTO;
     const existingTaxi = await this.taxiModel.findOne({
@@ -40,8 +40,8 @@ export class TaxiService {
 
   async rateTaxi(
     reviewTaxiBannerDTO: ReviewTaxiBannerDTO,
-    id: string,
-  ): Promise<any> {
+    id: mongoose.Types.ObjectId,
+  ): Promise<CustomError | UserData> {
     //check if user id is valid
     const isValidId = isValidObjectId(id);
     if (!isValidId) {
@@ -123,7 +123,7 @@ export class TaxiService {
     }
   }
 
-  async ocrBanner(ocrBanner: OCRBannerDTO): Promise<any> {
+  async ocrBanner(ocrBanner: OCRBannerDTO): Promise<CustomError | UserData> {
     const { base64Image } = ocrBanner;
     const vision = require('@google-cloud/vision');
     //create a client with the json file credentials

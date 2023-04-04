@@ -5,6 +5,7 @@ import { CommentDTO } from './dto/comment.dto';
 import { ReplyDTO } from './dto/reply.dto';
 import { Public } from 'src/auth/public.decorator';
 import { TaxiIdDTO } from './dto/taxi-id.dto';
+import { CustomError, UserData } from 'src/error-handler/error-handler';
 
 @Controller('comment')
 export class CommentController {
@@ -16,7 +17,7 @@ export class CommentController {
     commentDTO: CommentDTO,
     //get user id from token payload and add it to the reviewTaxiBannerDTO object
     @Req() req,
-  ) {
+  ): Promise<CustomError | UserData> {
     const id = req.user.id;
     return await this.commentService.createComment(commentDTO, id);
   }
@@ -27,7 +28,7 @@ export class CommentController {
     replyDTO: ReplyDTO,
     //get user id from token payload and add it to the reviewTaxiBannerDTO object
     @Req() req,
-  ) {
+  ): Promise<CustomError | UserData> {
     const id = req.user.id;
     return await this.commentService.replyToComment(replyDTO, id);
   }
@@ -37,7 +38,7 @@ export class CommentController {
     @Body()
     taxiIdDTO: TaxiIdDTO,
     //get user id from token payload and add it to the reviewTaxiBannerDTO object
-  ) {
+  ): Promise<CustomError | UserData> {
     return await this.commentService.getTaxiComments(taxiIdDTO);
   }
 }

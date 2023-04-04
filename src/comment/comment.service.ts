@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, isValidObjectId } from 'mongoose';
+import mongoose, { Model, isValidObjectId } from 'mongoose';
 import { Comment } from './schema/comment.schema';
 import { CommentDTO } from './dto/comment.dto';
 import { ReplyDTO } from './dto/reply.dto';
 import { Taxi } from 'src/taxi/schema/taxi.schema';
 import { TaxiIdDTO } from './dto/taxi-id.dto';
+import { CustomError, UserData } from 'src/error-handler/error-handler';
 
 @Injectable()
 export class CommentService {
@@ -15,7 +16,10 @@ export class CommentService {
     @InjectModel(Taxi.name)
     private taxiModel: Model<Taxi>,
   ) {}
-  async createComment(commentDTO: CommentDTO, userId: string) {
+  async createComment(
+    commentDTO: CommentDTO,
+    userId: mongoose.Types.ObjectId,
+  ): Promise<CustomError | UserData> {
     const isValidID = isValidObjectId(userId);
     if (!isValidID) {
       return {
@@ -45,7 +49,10 @@ export class CommentService {
       data: savedComment,
     };
   }
-  async replyToComment(replyDTO: ReplyDTO, userId) {
+  async replyToComment(
+    replyDTO: ReplyDTO,
+    userId: mongoose.Types.ObjectId,
+  ): Promise<CustomError | UserData> {
     //check if the user id is valid
     const isValidID = isValidObjectId(userId);
     if (!isValidID) {
@@ -86,7 +93,7 @@ export class CommentService {
       data: savedComment,
     };
   }
-  async getTaxiComments(taxiIdDTO: TaxiIdDTO) {
+  async getTaxiComments(taxiIdDTO: TaxiIdDTO): Promise<CustomError | UserData> {
     const { taxiId } = taxiIdDTO;
     //check if the taxi id is valid
     const isValidTaxiID = isValidObjectId(taxiId);

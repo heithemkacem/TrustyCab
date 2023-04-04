@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
 
 import * as bcrypt from 'bcryptjs';
@@ -10,6 +10,12 @@ import { LoginDto } from './dto/login.dto';
 import { ResetDto } from './dto/reset.dto';
 import { ForgetDto } from './dto/forget.dto';
 import { OtpService } from 'src/otp/otp.service';
+import {
+  CustomError,
+  UserLoginTokenMessage,
+  UserSuccessMessage,
+  UserVerificationMessage,
+} from 'src/error-handler/error-handler';
 
 @Injectable()
 export class AuthService {
@@ -17,11 +23,10 @@ export class AuthService {
     @InjectModel(User.name)
     private userModel: Model<User>,
     private jwtService: JwtService,
-
     private otpService: OtpService,
   ) {}
   //!Get User
-  async getUser(id: string): Promise<any> {
+  async getUser(id: mongoose.Types.ObjectId): Promise<any> {
     const user = await this.userModel.findById(id);
     return user;
   }
@@ -31,7 +36,9 @@ export class AuthService {
     return user;
   }
   //!Sign Up
-  async signUp(signUpDto: SignUpDto): Promise<any> {
+  async signUp(
+    signUpDto: SignUpDto,
+  ): Promise<CustomError | UserSuccessMessage> {
     const { fullName, phone, email, password } = signUpDto;
     const hashedPassword = await bcrypt.hash(password, 10);
     const userAleardyExist = await this.getUserByEmail(email);
@@ -46,7 +53,7 @@ export class AuthService {
       await this.otpService.sendOTPVerificationEmail(user);
       return {
         status: 'Success',
-        message: 'User created successfully',
+        message: 'Your account has been created successfully',
         user: user,
       };
     } else {
@@ -57,7 +64,9 @@ export class AuthService {
     }
   }
   //!Login
-  async login(loginDto: LoginDto): Promise<any> {
+  async login(
+    loginDto: LoginDto,
+  ): Promise<CustomError | UserVerificationMessage | UserLoginTokenMessage> {
     const { email, password } = loginDto;
     const user = await this.getUserByEmail(email);
 
@@ -99,7 +108,9 @@ export class AuthService {
     }
   }
   //!Forget Password
-  async forgetPassword(forgetDto: ForgetDto): Promise<any> {
+  async forgetPassword(
+    forgetDto: ForgetDto,
+  ): Promise<CustomError | UserVerificationMessage> {
     const { email } = forgetDto;
 
     const user = await this.getUserByEmail(email);
@@ -114,11 +125,11 @@ export class AuthService {
     return {
       status: 'Success',
       message: 'Password reset otp sent to your email',
-      id: user._id,
+      userID: user._id,
     };
   }
   //!Reset Password
-  async resetPassword(resetDto: ResetDto): Promise<any> {
+  async resetPassword(resetDto: ResetDto): Promise<CustomError> {
     const { id, password, confirmPassword } = resetDto;
     if (password !== confirmPassword) {
       return { status: 'Failed', message: 'Password not matched' };

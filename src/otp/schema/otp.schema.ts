@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 @Schema({
   timestamps: true,
 })
 export class OTP extends Document {
   @Prop()
-  userID: string;
+  userID: mongoose.Types.ObjectId;
 
   @Prop()
   otp: string;

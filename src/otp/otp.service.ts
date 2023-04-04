@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model, isValidObjectId } from 'mongoose';
 import { OTP } from './schema/otp.schema';
 import { User } from 'src/auth/schemas/user.schema';
 import * as bcrypt from 'bcryptjs';
 import * as OTPGenerator from 'otp-generator';
 import { MailService } from 'src/mail/mail.service';
+import { CustomError } from 'src/error-handler/error-handler';
 @Injectable()
 export class OtpService {
   constructor(
@@ -18,7 +19,7 @@ export class OtpService {
     private mailService: MailService,
   ) {}
   //!create an otp record
-  async createOTPRecord(_id: string): Promise<any> {
+  async createOTPRecord(_id: mongoose.Types.ObjectId): Promise<string> {
     const otp = OTPGenerator.generate(4, {
       upperCaseAlphabets: false,
       lowerCaseAlphabets: false,
@@ -34,10 +35,11 @@ export class OtpService {
       createdAt: Date.now(),
       expiresAt: Date.now() + 300000,
     });
+    console.log('OTP: ', typeof otp, otp);
     return otp;
   }
   //!send-otp to email for verification
-  async sendOTPVerificationEmail({ _id, email }): Promise<any> {
+  async sendOTPVerificationEmail({ _id, email }): Promise<CustomError> {
     const OTPRecord = await this.createOTPRecord(_id);
     await this.mailService.sendUserConfirmationEmail(email, OTPRecord);
     return {
@@ -45,7 +47,7 @@ export class OtpService {
       message: 'OTP has been sent to your email',
     };
   }
-  async sendOTPModifyPassword({ _id, email }): Promise<any> {
+  async sendOTPModifyPassword({ _id, email }): Promise<CustomError> {
     const OTPRecord = await this.createOTPRecord(_id);
     await this.mailService.sendOTPForgetPasswordEmail(email, OTPRecord);
     return {
@@ -54,13 +56,22 @@ export class OtpService {
     };
   }
   //!verify-modify-password
-  async verifyOTPModifyPassword(userID: string, otp: string): Promise<any> {
+  async verifyOTPModifyPassword(
+    userID: mongoose.Types.ObjectId,
+    otp: string,
+  ): Promise<CustomError> {
     if (!otp || !userID) {
       return {
         status: 'Failed',
         message: 'Empty details are not allowed',
       };
       //Empty details are not allowed
+    }
+    if (!isValidObjectId(userID)) {
+      return {
+        status: 'Failed',
+        message: 'Not a valid UserId',
+      };
     }
     const existingRecord = await this.otpModel.findOne({ userID: userID });
     if (existingRecord !== null) {
@@ -97,12 +108,20 @@ export class OtpService {
   }
 
   //!verify
-  async verifyOTP(userID: string, otp: string): Promise<any> {
+  async verifyOTP(
+    userID: mongoose.Types.ObjectId,
+    otp: string,
+  ): Promise<CustomError> {
     if (!otp || !userID) {
       //Empty details are not allowed
       return {
         status: 'Failed',
         message: 'Empty details are not allowed',
+      };
+    } else if (!isValidObjectId(userID)) {
+      return {
+        status: 'Failed',
+        message: 'Not a valid UserId',
       };
     } else {
       //transfor userId to a integer
@@ -164,11 +183,16 @@ export class OtpService {
   }
 
   //!resend OTP Function
-  async resendOTP(userID: string): Promise<any> {
+  async resendOTP(userID: mongoose.Types.ObjectId): Promise<CustomError> {
     if (!userID) {
       return {
         status: 'Failed',
         message: 'Empty details are not allowed',
+      };
+    } else if (!isValidObjectId(userID)) {
+      return {
+        status: 'Failed',
+        message: 'Not a valid UserId',
       };
     } else {
       // delete existing records and resend
@@ -189,11 +213,18 @@ export class OtpService {
   }
 
   //!resend OTP Function
-  async modifyPasswordResendOTP(userID: string): Promise<any> {
+  async modifyPasswordResendOTP(
+    userID: mongoose.Types.ObjectId,
+  ): Promise<CustomError> {
     if (!userID) {
       return {
         status: 'Failed',
         message: 'Empty details are not allowed',
+      };
+    } else if (!isValidObjectId(userID)) {
+      return {
+        status: 'Failed',
+        message: 'Not a valid UserId',
       };
     } else {
       // delete existing records and resend
