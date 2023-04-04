@@ -4,12 +4,16 @@ import { Model, isValidObjectId } from 'mongoose';
 import { Comment } from './schema/comment.schema';
 import { CommentDTO } from './dto/comment.dto';
 import { ReplyDTO } from './dto/reply.dto';
+import { Taxi } from 'src/taxi/schema/taxi.schema';
+import { TaxiIdDTO } from './dto/taxi-id.dto';
 
 @Injectable()
 export class CommentService {
   constructor(
     @InjectModel(Comment.name)
     private commentModel: Model<Comment>,
+    @InjectModel(Taxi.name)
+    private taxiModel: Model<Taxi>,
   ) {}
   async createComment(commentDTO: CommentDTO, userId: string) {
     const isValidID = isValidObjectId(userId);
@@ -80,6 +84,32 @@ export class CommentService {
       status: 'Success',
       message: 'Reply created successfully',
       data: savedComment,
+    };
+  }
+  async getTaxiComments(taxiIdDTO: TaxiIdDTO) {
+    const { taxiId } = taxiIdDTO;
+    //check if the taxi id is valid
+    const isValidTaxiID = isValidObjectId(taxiId);
+    if (!isValidTaxiID) {
+      return {
+        status: 'Failed',
+        message: 'Invalid taxi id',
+      };
+    }
+    //check if the taxi exists
+    const existingTaxi = await this.taxiModel.findById(taxiId);
+    if (!existingTaxi) {
+      return {
+        status: 'Failed',
+        message: 'Taxi not found',
+      };
+    }
+    //return the array of comments
+    const exsitingComments = await this.commentModel.find({ taxiId: taxiId });
+    return {
+      status: 'Success',
+      message: 'Comments fetched successfully',
+      data: exsitingComments,
     };
   }
 }

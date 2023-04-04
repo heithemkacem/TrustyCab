@@ -3,6 +3,8 @@ import { CommentService } from './comment.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CommentDTO } from './dto/comment.dto';
 import { ReplyDTO } from './dto/reply.dto';
+import { Public } from 'src/auth/public.decorator';
+import { TaxiIdDTO } from './dto/taxi-id.dto';
 
 @Controller('comment')
 export class CommentController {
@@ -28,5 +30,14 @@ export class CommentController {
   ) {
     const id = req.user.id;
     return await this.commentService.replyToComment(replyDTO, id);
+  }
+  @Post('get-taxi-comments')
+  @Public()
+  async getTaxiComments(
+    @Body()
+    taxiIdDTO: TaxiIdDTO,
+    //get user id from token payload and add it to the reviewTaxiBannerDTO object
+  ) {
+    return await this.commentService.getTaxiComments(taxiIdDTO);
   }
 }
