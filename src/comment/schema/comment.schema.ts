@@ -1,11 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Types } from 'mongoose';
 import { User } from 'src/auth/schemas/user.schema';
+import { Taxi } from 'src/taxi/schema/taxi.schema';
 
 @Schema({
   timestamps: true,
 })
 export class Comment {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Taxi' })
+  taxiId: Taxi;
   @Prop()
   comment: string;
   @Prop()

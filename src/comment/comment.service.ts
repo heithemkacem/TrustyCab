@@ -19,11 +19,20 @@ export class CommentService {
         message: 'Invalid user id',
       };
     }
-    const { comment, showUser } = commentDTO;
+    const { comment, showUser, taxiId } = commentDTO;
+    const isValidTaxiID = isValidObjectId(taxiId);
+    if (!isValidTaxiID) {
+      return {
+        status: 'Failed',
+        message: 'Invalid taxi id',
+      };
+    }
+
     const newComment = new this.commentModel({
       comment,
       showUser,
       user: userId,
+      taxiId,
     });
     const savedComment = await newComment.save();
     return {
