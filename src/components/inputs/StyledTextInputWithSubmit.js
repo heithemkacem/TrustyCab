@@ -4,7 +4,6 @@ import { View, Text, ActivityIndicator } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import SmallText from "../texts/SmallText";
 const { white, secondary, accent, lightGray, black } = colors;
 
 const RowContainer = styled.View`
@@ -52,11 +51,11 @@ const StyledTextInput = ({
   const [inputBackgroundColor, setInputBackgroundColor] = useState("white");
   const customOnBlur = () => {
     props?.onBlur;
-    setInputBackgroundColor("transparent");
+    setInputBackgroundColor("white");
   };
   const customOnFocus = () => {
     props?.onFocus;
-    setInputBackgroundColor("transparent");
+    setInputBackgroundColor("white");
   };
 
   return (
@@ -64,18 +63,14 @@ const StyledTextInput = ({
       <LeftIcon>
         <MaterialCommunityIcons name={icon} size={30} color={accent} />
       </LeftIcon>
-
-      <SmallText style={{ fontWeight: "600", marginBottom: 5 }}>
-        {label}
-      </SmallText>
-
       <InputField
         {...props}
         placeholderTextColor={lightGray}
         style={{
           backgroundColor: inputBackgroundColor,
           ...props?.style,
-          borderRadius: 20,
+          borderRadius: "20px",
+          marginTop: 22,
           borderColor: errors ? "red" : secondary,
         }}
         onBlur={customOnBlur}

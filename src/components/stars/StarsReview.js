@@ -10,9 +10,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "../../styles/styles";
 import { updateRate } from "../../_actions/logicHandlerActions/userActions";
 import LoginModel from "../modals/LoginModel";
-import { moveTo } from "../../util/moveTo";
 const { useDispatch, useSelector } = require("react-redux");
-const StarsReview = ({ stars, bgColor }) => {
+const StarsReview = ({ stars, bgColor, navigation }) => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   let { isConnected } = auth;
@@ -79,16 +78,15 @@ const StarsReview = ({ stars, bgColor }) => {
             </TouchableWithoutFeedback>
           ))}
         </View>
-        <LoginModel
-          modalVisible={modalVisible}
-          buttonText="Go to login"
-          headerText="Login required !"
-          message="Please connect to the your account to rate the taxi"
-          navigation={navigation}
-          moveTo={moveTo}
-        />
       </View>
-      ;
+      <LoginModel
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        buttonText="Go to login"
+        headerText="Login required !"
+        message="Please connect to the your account to rate the taxi"
+        navigation={navigation}
+      />
     </SafeAreaView>
   );
 };

@@ -7,7 +7,14 @@ const { black } = colors;
 const PressableText = (props) => {
   return (
     <Pressable {...props} onPress={props.onPress}>
-      <SmallText style={{ color: black, fontWeight: 600 }}>
+      <SmallText
+        style={{
+          color: black,
+          fontWeight: 600,
+          textAlign: "left",
+          ...props.style,
+        }}
+      >
         {props.children || props.title}
       </SmallText>
     </Pressable>

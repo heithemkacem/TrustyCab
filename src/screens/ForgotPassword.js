@@ -73,10 +73,7 @@ const ForgotPassword = ({ navigation }) => {
                   ></ActivityIndicator>
                 </RegularButton>
               )}
-              <PressableText
-                style={{ paddingTop: 15 }}
-                onPress={() => moveTo(navigation, "Signup")}
-              >
+              <PressableText onPress={() => moveTo(navigation, "Signup")}>
                 Dont have an account? Sign Up
               </PressableText>
             </>

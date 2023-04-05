@@ -16,7 +16,11 @@ const ButtonView = styled.TouchableOpacity`
 `;
 const ButtonStyle = ({ color, ...props }) => {
   return (
-    <ButtonView {...props} onPress={props.onPress} style={{ borderRadius: 20 }}>
+    <ButtonView
+      {...props}
+      onPress={props.onPress}
+      style={{ borderRadius: "20px" }}
+    >
       <RegularText style={[{ color: black, ...props?.textStyle }]}>
         {props.children}
       </RegularText>

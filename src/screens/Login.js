@@ -80,10 +80,7 @@ const Login = ({ navigation }) => {
                 </RegularButton>
               )}
 
-              <PressableText
-                style={{ marginBottom: 15 }}
-                onPress={() => moveTo(navigation, "Signup")}
-              >
+              <PressableText onPress={() => moveTo(navigation, "Signup")}>
                 Dont have an account ? Signup
               </PressableText>
               <PressableText

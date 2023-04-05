@@ -68,7 +68,6 @@ const MainScreen = ({ navigation }) => {
               <>
                 <StyledTextInputWithSubmit
                   icon="taxi"
-                  label={"Taxi Banner"}
                   placeholder={"Enter the taxi banner"}
                   autoCapitalize="none"
                   onChangeText={handleChange("taxiBanner")}

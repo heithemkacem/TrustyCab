@@ -122,10 +122,7 @@ const SignUp = ({ navigation }) => {
                 </RegularButton>
               )}
 
-              <PressableText
-                style={{ paddingTop: 15 }}
-                onPress={() => moveTo(navigation, "Login")}
-              >
+              <PressableText onPress={() => moveTo(navigation, "Login")}>
                 Have an account? Login
               </PressableText>
             </>

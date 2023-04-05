@@ -29,12 +29,11 @@ const LoginModel = ({
   buttonText,
   modalVisible,
   navigation,
+  setModalVisible,
 }) => {
   return (
-    //animationType="slide" is the default value for the modal animation
-    //other   animationType="fade" or animationType="none"
     <Modal animationType="fade" visible={modalVisible} transparent={true}>
-      <ModalPressableContainer>
+      <ModalPressableContainer onPress={() => setModalVisible(false)}>
         <ModalView>
           <Text
             style={{
@@ -54,10 +53,9 @@ const LoginModel = ({
           >
             {message}
           </Text>
-
           <RegularButton
             onPress={() => {
-              moveTo(navigation, "Login");
+              moveTo(navigation, "Login"), setModalVisible(false);
             }}
           >
             {buttonText}

@@ -60,7 +60,14 @@ const StyledTextInput = ({ icon, label, isPassword, errors, ...props }) => {
         <MaterialCommunityIcons name={icon} size={30} color={accent} />
       </LeftIcon>
 
-      <SmallText style={{ fontWeight: "600", marginBottom: 5 }}>
+      <SmallText
+        style={{
+          fontWeight: "600",
+          marginBottom: 5,
+          color: black,
+          textAlign: "left",
+        }}
+      >
         {label}
       </SmallText>
 
@@ -70,7 +77,7 @@ const StyledTextInput = ({ icon, label, isPassword, errors, ...props }) => {
         style={{
           backgroundColor: inputBackgroundColor,
           ...props?.style,
-          borderRadius: 20,
+          borderRadius: "20px",
           borderColor: errors ? "red" : secondary,
         }}
         onBlur={customOnBlur}

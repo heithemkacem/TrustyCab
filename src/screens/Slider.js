@@ -27,7 +27,7 @@ const Slider = ({ navigation }) => {
           style={{
             color: "#000000",
             backgroundColor: "#FFFFFF",
-            borderRadius: 16,
+            borderRadius: "16px",
             fontWeight: "600",
             fontSize: 14,
             padding: 10,

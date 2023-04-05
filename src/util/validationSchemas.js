@@ -1,11 +1,17 @@
 import * as Yup from "yup";
 
+//!Comment Schema
+export const CommentSchema = Yup.object().shape({
+  comment: Yup.string().required("Please enter your comment"),
+});
+
 //!Forget Password Schema
 export const ForgetPassSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email address")
     .required("Please enter your email address"),
 });
+//!Taxi Bannner Schema
 export const taxiBannerSchema = Yup.object().shape({
   taxiBanner: Yup.number().required("Please enter the taxi banner"),
 });

@@ -118,7 +118,7 @@ export const ForgotPasswordAction =
         });
         setSubmitting(false);
         moveTo(navigation, "ResetPassword", {
-          id: response.data.id,
+          id: response.data.userID,
         });
       }
     } catch (error) {

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors } from "./../components/colors";
-const { white, black, lightGray } = colors;
+const { white, lightGray } = colors;
 export const styles = StyleSheet.create({
   //!Slider
   container: {
@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
     width: 220,
     height: 150,
     alignSelf: "center",
-    borderRadius: 15,
+    borderRadius: "15px",
   },
   introTextStyle: {
     marginTop: 10,

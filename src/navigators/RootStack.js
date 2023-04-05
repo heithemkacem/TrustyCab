@@ -27,6 +27,8 @@ const Stack = createStackNavigator();
 const { white, black } = colors;
 
 const RootStack = () => {
+  const isConnected = useSelector((state) => state.auth.isConnected);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -65,10 +67,11 @@ const RootStack = () => {
             //passing the user and the dahsboard component to the component prop inside a protected route
             component={MainScreen}
             options={{
-              headerTitle: "Powered by firas kacem",
+              headerTitle: "Main Screen",
               headerLeft: () => null,
               //logout button
-              /*headerRight: () => (
+              headerRight: () =>
+                isConnected ? (
                   <Pressable
                     onPress={() => {
                       //logout
@@ -81,7 +84,7 @@ const RootStack = () => {
                       color="black"
                     />
                   </Pressable>
-                ), */
+                ) : null,
             }}
           />
           <Stack.Screen
@@ -89,8 +92,27 @@ const RootStack = () => {
             //passing the user and the dahsboard component to the component prop inside a protected route
             component={TaxiScreen}
             options={{
+              headerTitle: "Taxi ",
               //show only the back button and no title
-              header: () => null,
+              headerStyle: {
+                backgroundColor: "transparent",
+              },
+
+              headerRight: () =>
+                isConnected ? (
+                  <Pressable
+                    onPress={() => {
+                      //logout
+                      store.dispatch(Logout());
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="logout"
+                      size={25}
+                      color="black"
+                    />
+                  </Pressable>
+                ) : null,
             }}
           />
           <Stack.Screen
