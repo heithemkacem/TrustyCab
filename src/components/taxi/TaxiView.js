@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import IconHeader from "../icons/IconHeader";
 import StarsReview from "../stars/StarsReview";
 import FixedStars from "../stars/FixedStars";
@@ -8,11 +8,14 @@ import { colors } from "../colors";
 import { Formik } from "formik";
 import { CommentSchema } from "../../util/validationSchemas";
 import { useDispatch, useSelector } from "react-redux";
-import { addComment } from "../../_actions/logicHandlerActions/userActions";
+import {
+  addComment,
+  getComments,
+} from "../../_actions/logicHandlerActions/userActions";
 import StyledTextInputWithSubmit from "../inputs/StyledTextInputWithSubmit";
 import { useState } from "react";
 import LoginModel from "../modals/LoginModel";
-const { white } = colors;
+const { white, black } = colors;
 
 const TaxiView = ({ color, score, navigation }) => {
   const dispatch = useDispatch();
@@ -21,6 +24,10 @@ const TaxiView = ({ color, score, navigation }) => {
   let { isConnected, user } = auth;
   const [showModel, setShowModel] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    dispatch(getComments(taxi.taxi._id, setComments));
+  });
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View
@@ -112,6 +119,35 @@ const TaxiView = ({ color, score, navigation }) => {
           navigation={navigation}
           setModalVisible={setShowModel}
         />
+      </View>
+      <View
+        style={{
+          padding: 20,
+          backgroundColor: color,
+        }}
+      >
+        {comments?.map((commentObject, index) => (
+          <View
+            key={index}
+            style={{
+              backgroundColor: white,
+              padding: 20,
+              borderRadius: 10,
+              marginBottom: 20,
+            }}
+          >
+            {commentObject.showUser === true ? (
+              <Text style={{ fontWeight: "bold", color: black }}>
+                {commentObject.userName}
+              </Text>
+            ) : (
+              <Text style={{ fontWeight: "bold", color: black }}>
+                Anonymous
+              </Text>
+            )}
+            <Text>{commentObject.comment}</Text>
+          </View>
+        ))}
       </View>
     </ScrollView>
   );

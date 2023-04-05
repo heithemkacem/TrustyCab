@@ -101,6 +101,32 @@ export const addComment =
         setSubmitting(false);
       });
   };
+
+export const getComments = (id, setComments) => (dispatch) => {
+  axios
+    .post(`${currentUrl}/comment/get-taxi-comments`, {
+      taxiId: id,
+    })
+    .then((response) => {
+      if (response.data.status === "Failed") {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: response.data.message,
+        });
+      } else if (response.data.status === "Success") {
+        setComments(response.data.data);
+      }
+    })
+    .catch((error) => {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error.response.data.message,
+      });
+      setSubmitting(false);
+    });
+};
 export const setTaxi = (taxi) => ({
   //?Set the user in the store
   type: SET_TAXI,
