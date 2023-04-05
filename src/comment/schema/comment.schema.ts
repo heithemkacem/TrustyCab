@@ -13,6 +13,8 @@ export class Comment {
   comment: string;
   @Prop()
   showUser: boolean;
+  @Prop()
+  userName: string;
   //define a prop for the user who created the comment
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;

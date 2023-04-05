@@ -7,6 +7,7 @@ import { ReplyDTO } from './dto/reply.dto';
 import { Taxi } from 'src/taxi/schema/taxi.schema';
 import { TaxiIdDTO } from './dto/taxi-id.dto';
 import { CustomError, UserData } from 'src/error-handler/error-handler';
+import { User } from 'src/auth/schemas/user.schema';
 
 @Injectable()
 export class CommentService {
@@ -15,6 +16,8 @@ export class CommentService {
     private commentModel: Model<Comment>,
     @InjectModel(Taxi.name)
     private taxiModel: Model<Taxi>,
+    @InjectModel(User.name)
+    private userModel: Model<User>,
   ) {}
   async createComment(
     commentDTO: CommentDTO,
@@ -35,19 +38,49 @@ export class CommentService {
         message: 'Invalid taxi id',
       };
     }
+    const taxi = await this.taxiModel.findById(taxiId);
+    if (!taxi) {
+      return {
+        status: 'Failed',
+        message: 'Taxi not found',
+      };
+    }
 
-    const newComment = new this.commentModel({
-      comment,
-      showUser,
-      user: userId,
-      taxiId,
-    });
-    const savedComment = await newComment.save();
-    return {
-      status: 'Success',
-      message: 'Comment created successfully',
-      data: savedComment,
-    };
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      return {
+        status: 'Failed',
+        message: 'User not found',
+      };
+    }
+    if (showUser) {
+      const newComment = new this.commentModel({
+        comment,
+        showUser,
+        user: userId,
+        taxiId,
+        userName: user.fullName,
+      });
+      const savedComment = await newComment.save();
+      return {
+        status: 'Success',
+        message: 'Comment created successfully',
+        data: savedComment,
+      };
+    } else {
+      const newComment = new this.commentModel({
+        comment,
+        showUser,
+        user: userId,
+        taxiId,
+      });
+      const savedComment = await newComment.save();
+      return {
+        status: 'Success',
+        message: 'Comment created successfully',
+        data: savedComment,
+      };
+    }
   }
   async replyToComment(
     replyDTO: ReplyDTO,

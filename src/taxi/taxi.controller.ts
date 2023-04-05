@@ -5,6 +5,7 @@ import { ReviewTaxiBannerDTO } from './dto/review-taxi-banner.dto';
 import { TaxiBannerDTO } from './dto/taxi-banner.dto';
 import { TaxiService } from './taxi.service';
 import { Public } from 'src/auth/public.decorator';
+import { CustomError, UserData } from 'src/error-handler/error-handler';
 @Controller('taxi')
 export class TaxiController {
   constructor(private taxiServices: TaxiService) {}
@@ -13,7 +14,7 @@ export class TaxiController {
   async getTaxiBanner(
     @Body()
     taxiBannerDTO: TaxiBannerDTO,
-  ): Promise<any> {
+  ): Promise<UserData> {
     return this.taxiServices.findByBanner(taxiBannerDTO);
   }
   @Post('rate')
@@ -23,7 +24,7 @@ export class TaxiController {
     reviewTaxiBannerDTO: ReviewTaxiBannerDTO,
     //get user id from token payload and add it to the reviewTaxiBannerDTO object
     @Req() req,
-  ): Promise<any> {
+  ): Promise<CustomError | UserData> {
     const id = req.user.id;
     return this.taxiServices.rateTaxi(reviewTaxiBannerDTO, id);
   }
@@ -34,7 +35,7 @@ export class TaxiController {
     @Body()
     ocrBanner: OCRBannerDTO,
     //get user id from token payload and add it to the reviewTaxiBannerDTO object
-  ): Promise<any> {
+  ): Promise<CustomError | UserData> {
     return this.taxiServices.ocrBanner(ocrBanner);
   }
 }
